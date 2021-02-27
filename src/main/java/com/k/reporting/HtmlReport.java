@@ -59,7 +59,7 @@ public class HtmlReport {
                             .append("            <td><span>" + stepsDesc + "</span></td>\n")
                             .append("            <td><span>1 min</span></td>\n")
                             .append("            <td class=" + status + "><span>" + stepStatus + "</span></td>\n")
-                            .append("            <td><span>"+errorMessage+"</span></td>\n")
+                            .append("            <td style=\"width: 10%;color: red;\"><span>"+errorMessage+"</span></td>\n")
                             .append("        </tr>");
                 }
             });
