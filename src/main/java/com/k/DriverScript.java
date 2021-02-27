@@ -1,43 +1,69 @@
 package com.k;
 
 import com.k.DriverAction.ActionEngine;
+import com.k.gmail.GmailServices;
 import com.k.pojo.ExcelObject;
 import com.k.pojo.RunnerPojo;
+import com.k.reporting.HtmlReport;
 import com.k.utils.config.ConfigFileReader;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 
 
 public class DriverScript {
 
+    static boolean waitUntilCondition(Supplier<Boolean> function) {
+        Double timer = 0.0;
+        Double maxTimeOut = 200.0;
+
+        boolean isFound;
+        do {
+            isFound = function.get();
+            if (isFound) {
+                break;
+            } else {
+                try {
+                    Thread.sleep(5000); // Sleeping for 1 min
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                timer++;
+                System.out.println("Waiting for condition to be true .. waited .." + timer * 5 + " sec.");
+            }
+        } while (timer < maxTimeOut + 1.0);
+
+        return isFound;
+    }
+
+    static void waitTillChildProcessCompleted(ExecutorService threadExecutor){
+        int count =0;
+        while(!threadExecutor.isTerminated()){
+            try {
+                Thread.sleep(5000);
+                count++;
+                System.out.println("Waiting : "+count * 5 +" sec");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         List<RunnerPojo> testList = ExcelObject.getTestStepsList();//.parallelStream().collect(Collectors.toList());
         int threadCount = ConfigFileReader.getInstance().readConfig().getParallelThreadCount();
-        System.out.println("Thread count is : =========  " + threadCount);
+        System.out.println("Thread count is : =========  " + threadCount); // 5
 
-        new DriverScript().threadExecutor(testList, threadCount);
+        ExecutorService threadExecutor = new DriverScript().threadExecutor(testList, threadCount);
 
-//        testList.forEach(x->{
-//
-//            System.out.println("Test Name: "+x.getTestCaseId());
-//            System.out.println("Test Status : "+x.getStatus());
-//
-//            System.out.println("======= Test Steps ===== ");
-//
-//            x.getTestStepsList().forEach(y-> {
-//
-//                System.out.println("Step Name: "+y.getDescription());
-//                System.out.println("Test caseId : "+y.getTestCaseId());
-//                System.out.println("Step Status: "+y.getResult());
-//
-//                System.out.println("\n ============ ==========");
-//            });
-//
-//        });
+        waitTillChildProcessCompleted(threadExecutor);
 
-        }
+        new HtmlReport(testList).createHtmlReport();
+        GmailServices.getInstance().sendEmailReport();
+
+    }
 
     public void driverScript(RunnerPojo testCase) {
         System.out.println("Executing Test for : " + testCase.getTestCaseId());
@@ -45,26 +71,17 @@ public class DriverScript {
 
         testCase.getTestStepsList().forEach(steps -> {
             try {
-//                if(testCase.getStatus().contains("Failed")){
-//                    throw new Exception("Failed already");
-//                }
                 System.out.println("Executing Step : " + steps.getDescription());
                 actionEngine.performAction(steps.getPageName(), steps.getElementName(), steps.getActionKeyword(), steps.getDataSet());
-            }catch (Exception e){
-                if(e.getMessage().contains("Failed already"))
-                    steps.setResult("Skipped");
-                else
+                steps.setResult("Passed");
+            } catch (Exception e) {
                     steps.setResult("Failed");
-                testCase.setStatus("Failed");
-                System.out.println("Error occurred : "+e.getMessage());
-                e.printStackTrace();
+                    System.out.println("Error occurred : " + e.getMessage());
             }
         });
-
-
     }
 
-    private void threadExecutor(List<RunnerPojo> testList, int threadSize) {
+    private ExecutorService threadExecutor(List<RunnerPojo> testList, int threadSize) {
         ExecutorService exec = Executors.newFixedThreadPool(threadSize);
         testList.forEach(tests -> {
             exec.submit(() -> {
@@ -72,5 +89,6 @@ public class DriverScript {
             });
         });
         exec.shutdown();
+        return exec;
     }
 }

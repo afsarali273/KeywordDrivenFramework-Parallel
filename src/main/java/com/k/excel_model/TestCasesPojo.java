@@ -30,4 +30,6 @@ public class TestCasesPojo {
     @ExcelColumn(name = "Result")
     private String result;
 
+    private String errorMessage;
+
 }
