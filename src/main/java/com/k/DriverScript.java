@@ -10,8 +10,6 @@ import com.k.utils.config.ConfigFileReader;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
-
 
 public class DriverScript {
     static ConfigFileReader config;
@@ -54,6 +52,7 @@ public class DriverScript {
                 steps.setResult("Passed");
             } catch (Exception e) {
                     steps.setResult("Failed");
+                    steps.setErrorMessage(e.getLocalizedMessage());
                     System.out.println("Error occurred : " + e.getMessage());
             }
         });

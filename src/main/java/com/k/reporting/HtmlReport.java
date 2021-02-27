@@ -45,6 +45,7 @@ public class HtmlReport {
                 String stepsDesc = steps.getDescription();
                 String stepStatus = steps.getResult();
                 String status = stepStatus.contains("Passed") ? "statusPass" : "statusFail";
+                String errorMessage = StringUtils.isNotEmpty(steps.getErrorMessage())? steps.getErrorMessage(): " ";
 
                 if (StringUtils.isEmpty(steps.getActionKeyword())) {
                     builder.append("<tr>\n")
@@ -58,7 +59,7 @@ public class HtmlReport {
                             .append("            <td><span>" + stepsDesc + "</span></td>\n")
                             .append("            <td><span>1 min</span></td>\n")
                             .append("            <td class=" + status + "><span>" + stepStatus + "</span></td>\n")
-                            .append("            <td><span>Null Pointer Exception</span></td>\n")
+                            .append("            <td><span>"+errorMessage+"</span></td>\n")
                             .append("        </tr>");
                 }
             });
