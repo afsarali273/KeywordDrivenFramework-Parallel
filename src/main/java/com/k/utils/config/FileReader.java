@@ -3,6 +3,7 @@ package com.k.utils.config;
 import org.ini4j.Ini;
 
 import java.io.File;
+import java.util.function.Supplier;
 
 public class FileReader {
 
@@ -18,6 +19,29 @@ public class FileReader {
 
         }
         return ini.get(strHeader, strKeys);
+    }
+
+    static boolean waitUntilCondition(Supplier<Boolean> function) {
+        Double timer = 0.0;
+        Double maxTimeOut = 200.0;
+
+        boolean isFound;
+        do {
+            isFound = function.get();
+            if (isFound) {
+                break;
+            } else {
+                try {
+                    Thread.sleep(5000); // Sleeping for 5 sec
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                timer++;
+                System.out.println("Waiting for condition to be true .. waited .." + timer * 5 + " sec.");
+            }
+        } while (timer < maxTimeOut + 1.0);
+
+        return isFound;
     }
 
 }

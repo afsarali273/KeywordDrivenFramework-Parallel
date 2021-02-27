@@ -14,30 +14,7 @@ import java.util.function.Supplier;
 
 
 public class DriverScript {
-
-    static boolean waitUntilCondition(Supplier<Boolean> function) {
-        Double timer = 0.0;
-        Double maxTimeOut = 200.0;
-
-        boolean isFound;
-        do {
-            isFound = function.get();
-            if (isFound) {
-                break;
-            } else {
-                try {
-                    Thread.sleep(5000); // Sleeping for 1 min
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                timer++;
-                System.out.println("Waiting for condition to be true .. waited .." + timer * 5 + " sec.");
-            }
-        } while (timer < maxTimeOut + 1.0);
-
-        return isFound;
-    }
-
+    static ConfigFileReader config;
     static void waitTillChildProcessCompleted(ExecutorService threadExecutor){
         int count =0;
         while(!threadExecutor.isTerminated()){
@@ -53,7 +30,8 @@ public class DriverScript {
 
     public static void main(String[] args) {
         List<RunnerPojo> testList = ExcelObject.getTestStepsList();//.parallelStream().collect(Collectors.toList());
-        int threadCount = ConfigFileReader.getInstance().readConfig().getParallelThreadCount();
+        config = ConfigFileReader.getInstance().readConfig();
+        int threadCount = config.getParallelThreadCount();
         System.out.println("Thread count is : =========  " + threadCount); // 5
 
         ExecutorService threadExecutor = new DriverScript().threadExecutor(testList, threadCount);
