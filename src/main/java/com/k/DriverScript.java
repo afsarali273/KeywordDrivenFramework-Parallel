@@ -4,6 +4,7 @@ import com.k.DriverAction.ActionEngine;
 import com.k.excel_model.TestCasePojo;
 import com.k.excel_model.TestSuitePojo;
 import com.k.pojo.ExcelMapper;
+import com.k.pojo.StatusUpdate;
 import com.k.reporting.HtmlReport;
 import com.k.utils.config.ConfigFileReader;
 
@@ -37,6 +38,8 @@ public class DriverScript {
 
         waitTillChildProcessCompleted(threadExecutor);
 
+        //Reporting
+        new StatusUpdate().updateStatus(suites);
         new HtmlReport(suites).createHtmlReport();
        // GmailServices.getInstance().sendEmailReport();
 
