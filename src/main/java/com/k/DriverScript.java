@@ -2,8 +2,8 @@ package com.k;
 
 import com.k.DriverAction.ActionEngine;
 import com.k.gmail.GmailServices;
-import com.k.pojo.ExcelObject;
-import com.k.pojo.RunnerPojo;
+import com.k.pojo.ExcelMapper;
+import com.k.pojo.TestCasePojo;
 import com.k.reporting.HtmlReport;
 import com.k.utils.config.ConfigFileReader;
 
@@ -27,7 +27,7 @@ public class DriverScript {
     }
 
     public static void main(String[] args) {
-        List<RunnerPojo> testList = ExcelObject.getTestStepsList();//.parallelStream().collect(Collectors.toList());
+        List<TestCasePojo> testList = ExcelMapper.getTestCasesAndStepsMapperList();//.parallelStream().collect(Collectors.toList());
         config = ConfigFileReader.getInstance().readConfig();
         int threadCount = config.getParallelThreadCount();
         System.out.println("Thread count is : =========  " + threadCount); // 5
@@ -41,7 +41,7 @@ public class DriverScript {
 
     }
 
-    public void driverScript(RunnerPojo testCase) {
+    public void driverScript(TestCasePojo testCase) {
         System.out.println("Executing Test for : " + testCase.getTestCaseId());
         ActionEngine actionEngine = new ActionEngine();
 
@@ -58,7 +58,7 @@ public class DriverScript {
         });
     }
 
-    private ExecutorService threadExecutor(List<RunnerPojo> testList, int threadSize) {
+    private ExecutorService threadExecutor(List<TestCasePojo> testList, int threadSize) {
         ExecutorService exec = Executors.newFixedThreadPool(threadSize);
         testList.forEach(tests -> {
             exec.submit(() -> {

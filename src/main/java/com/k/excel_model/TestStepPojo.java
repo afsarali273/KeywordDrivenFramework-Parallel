@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestCasesPojo {
+public class TestStepPojo {
 
     @ExcelColumn(name = "TestId")
     private String testCaseId;

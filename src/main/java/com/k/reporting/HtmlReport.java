@@ -1,7 +1,7 @@
 package com.k.reporting;
 
 import com.k.gmail.GmailServices;
-import com.k.pojo.RunnerPojo;
+import com.k.pojo.TestCasePojo;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HtmlReport {
 
-    private List<RunnerPojo> testList;
+    private List<TestCasePojo> testList;
 
-    public HtmlReport(List<RunnerPojo> testList) {
+    public HtmlReport(List<TestCasePojo> testList) {
         this.testList = testList;
     }
 

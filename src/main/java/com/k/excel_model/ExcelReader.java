@@ -35,10 +35,10 @@ public class ExcelReader {
         switch (sheetName) {
             case "Suite":
                 return TestSuitePojo.class;
-            case "SuiteDetails":
-                return SuiteDetails.class;
             case "TestCases":
-                return TestCasesPojo.class;
+                return SuiteDetails.class;
+            case "TestSteps":
+                return TestStepPojo.class;
         }
         return null;
     }
