@@ -1,9 +1,9 @@
 package com.k;
 
 import com.k.DriverAction.ActionEngine;
-import com.k.gmail.GmailServices;
+import com.k.excel_model.TestCasePojo;
+import com.k.excel_model.TestSuitePojo;
 import com.k.pojo.ExcelMapper;
-import com.k.pojo.TestCasePojo;
 import com.k.reporting.HtmlReport;
 import com.k.utils.config.ConfigFileReader;
 
@@ -27,17 +27,18 @@ public class DriverScript {
     }
 
     public static void main(String[] args) {
-        List<TestCasePojo> testList = ExcelMapper.getTestCasesAndStepsMapperList();//.parallelStream().collect(Collectors.toList());
+
+      List<TestSuitePojo> suites =  ExcelMapper.readExcelPojo();
         config = ConfigFileReader.getInstance().readConfig();
         int threadCount = config.getParallelThreadCount();
         System.out.println("Thread count is : =========  " + threadCount); // 5
 
-        ExecutorService threadExecutor = new DriverScript().threadExecutor(testList, threadCount);
+        ExecutorService threadExecutor = new DriverScript().threadExecutor(suites, threadCount);
 
         waitTillChildProcessCompleted(threadExecutor);
 
-        new HtmlReport(testList).createHtmlReport();
-        GmailServices.getInstance().sendEmailReport();
+        new HtmlReport(suites).createHtmlReport();
+       // GmailServices.getInstance().sendEmailReport();
 
     }
 
@@ -45,7 +46,7 @@ public class DriverScript {
         System.out.println("Executing Test for : " + testCase.getTestCaseId());
         ActionEngine actionEngine = new ActionEngine();
 
-        testCase.getTestStepsList().forEach(steps -> {
+        testCase.getTestSteps().forEach(steps -> {
             try {
                 System.out.println("Executing Step : " + steps.getDescription());
                 actionEngine.performAction(steps.getPageName(), steps.getElementName(), steps.getActionKeyword(), steps.getDataSet());
@@ -58,11 +59,15 @@ public class DriverScript {
         });
     }
 
-    private ExecutorService threadExecutor(List<TestCasePojo> testList, int threadSize) {
+    private ExecutorService threadExecutor(List<TestSuitePojo> testSuites, int threadSize) {
         ExecutorService exec = Executors.newFixedThreadPool(threadSize);
-        testList.forEach(tests -> {
-            exec.submit(() -> {
-                driverScript(tests);
+        testSuites.forEach(testcases -> {
+
+            testcases.getTestCaseList().forEach( tests->{
+                exec.submit(() -> {
+                    driverScript(tests);
+                });
+
             });
         });
         exec.shutdown();

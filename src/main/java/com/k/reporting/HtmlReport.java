@@ -1,7 +1,7 @@
 package com.k.reporting;
 
+import com.k.excel_model.TestSuitePojo;
 import com.k.gmail.GmailServices;
-import com.k.pojo.TestCasePojo;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HtmlReport {
 
-    private List<TestCasePojo> testList;
+    private List<TestSuitePojo> testSuites;
 
-    public HtmlReport(List<TestCasePojo> testList) {
-        this.testList = testList;
+    public HtmlReport(List<TestSuitePojo> testSuites) {
+        this.testSuites = testSuites;
     }
 
     public void createHtmlReport() {
@@ -26,43 +26,46 @@ public class HtmlReport {
         Document doc = null;
         try {
             doc = Jsoup.parse(new File(htmlTemplatePath), "utf-8");
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Elements dom = doc.children();
         dom.select("table>tbody").after(getRow());
-        GmailServices.getInstance().setHtml(dom.html());
+       // GmailServices.getInstance().setHtml(dom.html());
         generateHtmlReport(dom.html());
     }
 
     public String getRow() {
         StringBuilder builder = new StringBuilder();
         AtomicInteger i = new AtomicInteger();
-        this.testList.forEach(tests -> {
+        this.testSuites.stream().forEach(testCases -> {
 
-            String testCaseId = tests.getTestCaseId(); //TestCase Name
-            tests.getTestStepsList().forEach(steps -> {
+            testCases.getTestCaseList().forEach(tests -> {
+                String testCaseId = tests.getTestCaseName(); //TestCase Name
 
-                String stepsDesc = steps.getDescription();
-                String stepStatus = steps.getResult();
-                String status = stepStatus.contains("Passed") ? "statusPass" : "statusFail";
-                String errorMessage = StringUtils.isNotEmpty(steps.getErrorMessage())? steps.getErrorMessage(): " ";
+                builder.append("<tr>\n")
+                        .append("            <td class=\"testName\" colspan=\"6\"><span>" + testCaseId + " </span></td>\n")
+                        .append("        </tr>");
+                tests.getTestSteps().forEach(steps -> {
 
-                if (StringUtils.isEmpty(steps.getActionKeyword())) {
-                    builder.append("<tr>\n")
-                            .append("            <td class=\"testName\" colspan=\"6\"><span>" + stepsDesc + " </span></td>\n")
-                            .append("        </tr>");
-                } else {
+                    String stepsDesc = steps.getDescription();
+                    String stepStatus = steps.getResult();
+                    String status = stepStatus.contains("Passed") ? "statusPass" : "statusFail";
+                    String errorMessage = StringUtils.isNotEmpty(steps.getErrorMessage()) ? steps.getErrorMessage() : " ";
                     builder
                             .append("<tr>\n")
                             .append("            <td><span> " + (i.incrementAndGet()) + "</span></td>\n")
-                            .append("            <td><span>" + testCaseId + "</span></td>\n")
+                            .append("            <td><span>" + steps.getTestCaseId() + "</span></td>\n")
                             .append("            <td><span>" + stepsDesc + "</span></td>\n")
                             .append("            <td><span>1 min</span></td>\n")
                             .append("            <td class=" + status + "><span>" + stepStatus + "</span></td>\n")
-                            .append("            <td style=\"width: 10%;color: red;\"><span>"+errorMessage+"</span></td>\n")
+                            .append("            <td style=\"width: 10%;color: red;\"><span>" + errorMessage + "</span></td>\n")
                             .append("        </tr>");
-                }
+                });
+
             });
+
         });
         return builder.toString();
     }
