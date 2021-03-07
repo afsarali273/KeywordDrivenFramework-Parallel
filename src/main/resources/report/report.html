@@ -9,49 +9,138 @@
             font-size: 13px;
             font-weight: initial;
         }
-        span{
-            padding:3px;
+
+        span {
+            padding: 3px;
             text-align: center;
 
         }
 
         .testName {
-            width:100%;
-            text-align:center;
+            width: 100%;
+            text-align: center;
             color: navy;
             background-color: #d7d6d3;
             font-weight: bold;
         }
 
-        .header{
+        .header {
             background-color: #221d5a;
             color: white;
         }
-        th{
+
+        th {
             padding: 3px;
             height: 5px;
         }
 
-        .statusPass{
+        .statusPass {
             background-color: #a6e5a4;
         }
-        .statusFail{
+
+        .statusFail {
             background-color: red;
         }
 
-        tr>td:nth-child(6){
+        tr > td:nth-child(6) {
             width: 10%;
             color: red;
+        }
+
+        .summaryTable > thead > tr > td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .summaryTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .summaryTable > tbody > tr > td {
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .detailsText {
+            font-family: 'InaiMathi', 'Times New Roman';
+            font-size: 15px;
+            color: navy;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        .failedSummaryTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .failedSummaryTable > tbody > tr > td {
+            text-align: center;
+            color: red;
+            padding: 2px;
+            background-color: #f6eded;
+        }
+
+        .failedSummaryTable > thead > tr > th {
+            text-align: center;
+            padding: 5px;
         }
 
     </style>
 </head>
 <body>
-<div style="margin: 15px">
-    <h3 style="font-family: 'InaiMathi','Times New Roman';font-size: 15px;color: navy"> Detailed TestCase and Steps:</h3>
+
+<div style="margin:15px;">
+    <table id="mainSummaryTable" class="summaryTable">
+        <thead class="header">
+        <td> Application Name</td>
+        <td> Date of Run</td>
+        <td> Total Tests #</td>
+        <td> Pass Tests #</td>
+        <td> Failed Tests #</td>
+        <td style="color: white"> Pass %</td>
+        <td> Failed %</td>
+        </thead>
+        <tbody>
+<!--        <tr>-->
+<!--            <td> My Automation Application</td>-->
+<!--            <td> 12/03/2021 SunDay</td>-->
+<!--            <td> 50</td>-->
+<!--            <td> 40</td>-->
+<!--            <td> 10</td>-->
+<!--            <td style="color: green;font-size: large"> 20%</td>-->
+<!--            <td style="color: red;font-size: large"> 20%</td>-->
+<!--        </tr>-->
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h3 class="detailsText"> Failed Tests</h3>
+</div>
+
+<div>
+    <table id="failedTests" class="failedSummaryTable">
+        <thead class="header">
+        <tr>
+            <th> Test Case ID</th>
+            <th> Test Case Name</th>
+            <th> Duration</th>
+            <th> Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h3 class="detailsText"> Detailed Test Result</h3>
 </div>
 <div style="margin:15px">
-    <table style="width: 100%;">
+    <table id="detailedResult" style="width: 100%;">
         <thead class="header">
         <tr>
             <th> Sl. No</th>

@@ -56,7 +56,7 @@ public class DriverScript {
                 steps.setResult("Passed");
             } catch (Exception e) {
                     steps.setResult("Failed");
-                    steps.setErrorMessage(e.getLocalizedMessage());
+                    steps.setErrorMessage(e.getMessage());
                     System.out.println("Error occurred : " + e.getMessage());
             }
         });

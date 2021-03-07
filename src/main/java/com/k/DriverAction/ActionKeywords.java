@@ -22,7 +22,6 @@ public class ActionKeywords {
             driver = new FirefoxDriver();
             System.out.println("Mozilla browser started");
         } else if (data.equals("IE")) {
-            //Dummy Code, Implement you own code
             driver = new InternetExplorerDriver();
             System.out.println("IE browser started");
         } else if (data.equals("chrome")) {

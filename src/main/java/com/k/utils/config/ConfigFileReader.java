@@ -17,6 +17,7 @@ public class ConfigFileReader {
     public int parallelThreadCount = 1;
     public String environment = "qa";
     public int maxTimeout = 30;
+    public String applicationName =null;
     private static ConfigFileReader configFileReader;
 
     private ConfigFileReader() { }
@@ -46,6 +47,8 @@ public class ConfigFileReader {
                 this.environment = getValue(prop, "env");
             if (getValue(prop, "maxTimeout") != null)
                 this.maxTimeout = Integer.parseInt(getValue(prop, "maxTimeout"));
+            if (getValue(prop, "application_name") != null)
+                this.applicationName = getValue(prop, "application_name");
         } catch (Exception e) {
             System.out.println("Something went wrong while reading the property file");
         }

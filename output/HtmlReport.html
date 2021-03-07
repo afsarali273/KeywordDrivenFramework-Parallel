@@ -9,49 +9,143 @@
             font-size: 13px;
             font-weight: initial;
         }
-        span{
-            padding:3px;
+
+        span {
+            padding: 3px;
             text-align: center;
 
         }
 
         .testName {
-            width:100%;
-            text-align:center;
+            width: 100%;
+            text-align: center;
             color: navy;
             background-color: #d7d6d3;
             font-weight: bold;
         }
 
-        .header{
+        .header {
             background-color: #221d5a;
             color: white;
         }
-        th{
+
+        th {
             padding: 3px;
             height: 5px;
         }
 
-        .statusPass{
+        .statusPass {
             background-color: #a6e5a4;
         }
-        .statusFail{
+
+        .statusFail {
             background-color: red;
         }
 
-        tr>td:nth-child(6){
+        tr > td:nth-child(6) {
             width: 10%;
             color: red;
+        }
+
+        .summaryTable > thead > tr > td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .summaryTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .summaryTable > tbody > tr > td {
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .detailsText {
+            font-family: 'InaiMathi', 'Times New Roman';
+            font-size: 15px;
+            color: navy;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        .failedSummaryTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .failedSummaryTable > tbody > tr > td {
+            text-align: center;
+            color: red;
+            padding: 2px;
+            background-color: #f6eded;
+        }
+
+        .failedSummaryTable > thead > tr > th {
+            text-align: center;
+            padding: 5px;
         }
 
     </style> 
 </head> 
 <body> 
- <div style="margin: 15px"> 
-  <h3 style="font-family: 'InaiMathi','Times New Roman';font-size: 15px;color: navy"> Detailed TestCase and Steps:</h3> 
+ <div style="margin:15px;"> 
+  <table id="mainSummaryTable" class="summaryTable"> 
+   <thead class="header"> 
+    <tr>
+     <td> Application Name</td> 
+     <td> Date of Run</td> 
+     <td> Total Tests #</td> 
+     <td> Pass Tests #</td> 
+     <td> Failed Tests #</td> 
+     <td style="color: white"> Pass %</td> 
+     <td> Failed %</td> 
+    </tr>
+   </thead> 
+   <tbody> <!--        <tr>--> <!--            <td> My Automation Application</td>--> <!--            <td> 12/03/2021 SunDay</td>--> <!--            <td> 50</td>--> <!--            <td> 40</td>--> <!--            <td> 10</td>--> <!--            <td style="color: green;font-size: large"> 20%</td>--> <!--            <td style="color: red;font-size: large"> 20%</td>--> <!--        </tr>--> 
+   </tbody> 
+   <tbody>
+    <tr> 
+     <td> Automation Practice Site</td> 
+     <td> Sun, 07 Mar 2021 11:40:13 SGT</td> 
+     <td> 8</td> 
+     <td> 8</td> 
+     <td> 0</td> 
+     <td style="color: green;font-size: large"> 100.0%</td> 
+     <td style="color: red;font-size: large"> 0.0%</td> 
+    </tr> 
+   </tbody> 
+  </table> 
+ </div> 
+ <div> 
+  <h3 class="detailsText"> Failed Tests</h3> 
+ </div> 
+ <div> 
+  <table id="failedTests" class="failedSummaryTable"> 
+   <thead class="header"> 
+    <tr> 
+     <th> Test Case ID</th> 
+     <th> Test Case Name</th> 
+     <th> Duration</th> 
+     <th> Status</th> 
+    </tr> 
+   </thead> 
+   <tbody> 
+   </tbody>
+   <tbody>
+    <tr>
+     <td colspan="4"> N/A</td>
+    </tr>
+   </tbody> 
+  </table> 
+ </div> 
+ <div> 
+  <h3 class="detailsText"> Detailed Test Result</h3> 
  </div> 
  <div style="margin:15px"> 
-  <table style="width: 100%;"> 
+  <table id="detailedResult" style="width: 100%;"> 
    <thead class="header"> 
     <tr> 
      <th> Sl. No</th> 
@@ -128,8 +222,8 @@
      <td><span>LogIn_01</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [4281259ec66c76f4f22acc390f7e2185, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49583}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: 4281259ec66c76f4f22acc390f7e2185</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 9</span></td> 
@@ -203,8 +297,8 @@
      <td><span>LogIn_02</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [501cc660a7cb2212676496b43c5b0ed9, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49575}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: 501cc660a7cb2212676496b43c5b0ed9</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 18</span></td> 
@@ -278,8 +372,8 @@
      <td><span>LogIn_03</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [3b31e2565f017871295b619d331671e6, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49574}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: 3b31e2565f017871295b619d331671e6</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 27</span></td> 
@@ -353,8 +447,8 @@
      <td><span>Home_01</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [a899828598fa2466c9f4d9472d192355, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49576}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: a899828598fa2466c9f4d9472d192355</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 36</span></td> 
@@ -428,8 +522,8 @@
      <td><span>LogIn_04</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [161e5234b525e94b958a3a3c46ed6bc2, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49735}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: 161e5234b525e94b958a3a3c46ed6bc2</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 45</span></td> 
@@ -578,8 +672,8 @@
      <td><span>LogIn_06</span></td> 
      <td><span>Click on LogOut button</span></td> 
      <td><span>1 min</span></td> 
-     <td class="statusFail"><span>Failed</span></td> 
-     <td style="width: 10%;color: red;"><span>no such element: Unable to locate element: {"method":"css selector","selector":"a.logout"} (Session info: chrome=88.0.4324.192) For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element Build info: version: '4.0.0-beta-1', revision: '9c03156c2b' System info: host: 'Mds-MacBook-Pro.local', ip: 'fe80:0:0:0:1053:ccf4:e31b:47b4%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.15.6', java.version: '1.8.0_251' Driver info: org.openqa.selenium.chrome.ChromeDriver Command: [cef643aa35919b7defcdfca7b062354c, findElement {using=css selector, value=a.logout}] Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 88.0.4324.192, chrome: {chromedriverVersion: 88.0.4324.96 (68dba2d8a0b14..., userDataDir: /var/folders/qb/wgdnbyb96d3...}, goog:chromeOptions: {debuggerAddress: localhost:49845}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true} Session ID: cef643aa35919b7defcdfca7b062354c</span></td> 
+     <td class="statusPass"><span>Passed</span></td> 
+     <td style="width: 10%;color: red;"><span> </span></td> 
     </tr>
     <tr> 
      <td><span> 63</span></td> 

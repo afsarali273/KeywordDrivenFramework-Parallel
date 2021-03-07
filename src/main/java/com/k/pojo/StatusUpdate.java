@@ -8,6 +8,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StatusUpdate {
 
+    public int passCount;
+    public int failCount;
+    public int totalRunCount;
+    public double passPerc;
+    public double failPerc;
+
 
     public List<TestSuitePojo> updateStatus(List<TestSuitePojo> suites) {
 
@@ -42,4 +48,20 @@ public class StatusUpdate {
         return tesCase.getTestSteps().stream().anyMatch(steps -> steps.getResult().equals("Failed"));
     }
 
+    public StatusUpdate testStatus(List<TestSuitePojo> suites) {
+        StatusUpdate update = new StatusUpdate();
+
+        suites.stream().forEach(suite -> {
+            suite.getTestCaseList().forEach(testCase -> {
+                if (isTestCaseFailed(testCase)) {
+                    update.failCount++;
+                } else {
+                    update.passCount++;
+                }
+            });
+        });
+        update.passPerc = ((double) update.passCount / (double) (update.failCount + update.passCount))*100;
+        update.failPerc = ((double) update.failCount / (double) (update.failCount + update.passCount))*100;
+        return update;
+    }
 }
